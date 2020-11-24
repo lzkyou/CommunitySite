@@ -19,9 +19,11 @@
       </el-menu>
     </el-aside>
     <el-container>
-      <el-header> Eason · 东莞粉丝站 后台管理界面 </el-header>
+      <el-header>
+        <h3>Eason · 东莞粉丝站 后台管理界面</h3>
+      </el-header>
       <el-main>
-        <router-view></router-view>
+        <router-view :key="$route.path"></router-view>
       </el-main>
     </el-container>
   </el-container>
@@ -37,9 +39,8 @@ export default class Main extends Vue {
       {
         title: "内容管理",
         items: [
-          { title: "首页", path: "/" },
           { title: "专辑管理", path: "/videos/list" },
-          { title: "视频管理", path: "/videos/list" },
+          { title: "视频管理", path: "/episodes/list" },
         ],
       },
       {
