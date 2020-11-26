@@ -10,6 +10,8 @@
       @row-save="create"
       @row-update="update"
       @row-del="remove"
+      @sort-change="changeSort"
+      @search-change="search"
     >
     </avue-crud>
   </div>
@@ -21,16 +23,17 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 @Component({})
 export default class ResourceList extends Vue {
   @Prop(String) resource?: string;
-  data:any = {};
-  option:any = {};
-  page:any = {
+  data: any = {};
+  option: any = {};
+  page: any = {
     total: 0,
-    pageSizes: [2,5,10],
-    pageSize: 2
+    // pageSizes: [2, 5, 10],
+    // pageSize: 2,
   };
-  query:any = {
-    limit: 2
-  }
+  query: any = {
+    // limit: 2,
+    sort: { _id: -1 },
+  };
 
   fields = {
     _id: { label: "ID" },
@@ -70,14 +73,43 @@ export default class ResourceList extends Vue {
     this.fetch();
   }
 
-  async changePage({pageSize,currentPage}){
-    this.query.page = currentPage
-    this.query.limit = pageSize
+  async changePage({ pageSize, currentPage }) {
+    this.query.page = currentPage;
+    this.query.limit = pageSize;
+    this.fetch();
+  }
+
+  async changeSort({ prop, order }) {
+    if (!order) {
+      this.query.sort = null;
+    } else {
+      this.query.sort = {
+        //动态键[]
+        [prop]: order === "asscending" ? 1 : -1,
+      };
+    }
+    this.fetch()
+  }
+
+  async search(query,done){
+    //遍历模糊查询的字段对象：{name: "aaa"}
+    for(let key in query){
+      //在option.column里查找对应的字段对象
+      const field = this.option.column.find(col => col.prop === key)
+      //判断字段 reg属性是否为true(模糊查询)
+      if(field.reg){
+        query[key]={$regex: query[key]};
+      }
+    }
+    this.query.where = query
+    done()
     this.fetch()
   }
 
   async fetch() {
-    const res = await this.$http.get(`${this.resource}`,{ params: { query: this.query}});
+    const res = await this.$http.get(`${this.resource}`, {
+      params: { query: this.query },
+    });
     this.page.total = res.data.total;
     this.data = res.data;
   }

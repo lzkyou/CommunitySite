@@ -16,17 +16,22 @@ const models = TypegooseModule.forFeature([
 //使模块全局可引用
 @Global()
 @Module({
-  imports:[
+  imports: [
     //连接数据库 nestjs-typegoose
-    TypegooseModule.forRoot('mongodb://localhost:27017/CommunitySite',{
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true,
-      useFindAndModify: false
+    TypegooseModule.forRootAsync({
+      useFactory() {
+        return {
+          uri: process.env.DB,
+          useNewUrlParser: true,
+          useUnifiedTopology: true,
+          useCreateIndex: true,
+          useFindAndModify: false
+        }
+      }
     }),
     models
   ],
   providers: [DbService],
   exports: [DbService, models], //导入User集合的schema并创建User集合同时将导入到模块中并导出到全局
 })
-export class DbModule {}
+export class DbModule { }

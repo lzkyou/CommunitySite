@@ -20,9 +20,10 @@ export class VideosController {
       headerAlign: "center",
       border: true,
       stripe: true,
+      searchMenuSpan:8,
       column: [
-        { prop: "name", label: "专辑名称" },
-        { prop: "cover", label: "专辑封面" },
+        { prop: "name", label: "专辑名称", row:true, span:24, sortable: true, search: true, reg: true },
+        { prop: "cover", label: "专辑封面", type:"upload", listType: "picture-img", action: 'upload' },
       ],
     }
   }

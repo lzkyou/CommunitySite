@@ -18,6 +18,4 @@ export class Video{
   @prop()
   cover: string
 
-  @prop({Ref: 'Episode'})
-  episodes: Ref<Episode>[]
 }

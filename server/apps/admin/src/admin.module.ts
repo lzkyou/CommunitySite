@@ -5,10 +5,28 @@ import { AdminService } from './admin.service';
 import { UsersModule } from './users/users.module';
 import { VideosModule } from './videos/videos.module';
 import { EpisodesModule } from './episodes/episodes.module';
+import { MulterModule } from '@nestjs/platform-express';
+import { CommonModule } from '@app/common';
+
+const MAO = require('multer-aliyun-oss');
 
 @Module({
   imports: [
-    DbModule,
+    CommonModule,
+    MulterModule.registerAsync({
+      useFactory() {
+        return {
+          storage: MAO({
+            config: {
+              region: process.env.OSS_REGION,
+              accessKeyId: process.env.OSS_ACCESS_KEY_ID,
+              accessKeySecret: process.env.OSS_ACCESS_KEY_SECRET,
+              bucket: process.env.OSS_BUCKET
+            }
+          })
+        }
+      }
+    }),
     UsersModule,
     VideosModule,
     EpisodesModule
@@ -16,4 +34,4 @@ import { EpisodesModule } from './episodes/episodes.module';
   controllers: [AdminController],
   providers: [AdminService],
 })
-export class AdminModule {}
+export class AdminModule { }

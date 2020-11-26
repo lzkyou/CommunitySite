@@ -9,9 +9,19 @@ import router from './router'
 // Vue.use(EleForm)
 Vue.config.productionTip = false
 
-Vue.prototype.$http = axios.create({
-  baseURL: 'http://localhost:3000/'
+const http = axios.create({
+  baseURL: process.env.VUE_APP_API_URL
 })
+
+Vue.prototype.$axios = http;
+window.axios = http;
+
+//avue upload功能
+//1.在Window中声明axios
+//2.在vue全局挂载$axios
+Vue.prototype.$httpajax = http
+//global req
+Vue.prototype.$http = http
 
 new Vue({
   router,
