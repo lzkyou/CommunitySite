@@ -4,7 +4,8 @@ import { Episode } from './episode.model'
 
 @modelOptions({
   schemaOptions:{
-    timestamps: true
+    timestamps: true,
+    toJSON: {virtuals: true}
   }
 })
 
@@ -18,4 +19,14 @@ export class Video{
   @prop()
   cover: string
 
+  @ApiProperty({description: '发布日期'})
+  @prop()
+  publish: string
+
+  @prop({
+    ref: 'Episode',
+    localField: '_id',
+    foreignField: 'belong'
+  })
+  episodes: Ref<Episode>[]
 }

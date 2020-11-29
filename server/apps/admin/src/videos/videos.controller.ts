@@ -23,6 +23,7 @@ export class VideosController {
       searchMenuSpan:8,
       column: [
         { prop: "name", label: "专辑名称", row:true, span:24, sortable: true, search: true, reg: true },
+        { prop: "publish", label: "发布日期", type:"date", format: 'yyyy-MM-dd', valueFormat: 'yyyy-MM-dd'},
         { prop: "cover", label: "专辑封面", type:"upload", listType: "picture-img", action: 'upload' },
       ],
     }

@@ -7,8 +7,8 @@ async function bootstrap() {
   app.enableCors()
 
   const options = new DocumentBuilder()
-    .setTitle('Community后台管理API')
-    .setDescription('后台管理API接口测试文档')
+    .setTitle('Community前台管理API')
+    .setDescription('前台API接口测试文档')
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, options);
