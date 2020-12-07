@@ -1,5 +1,5 @@
 import { User } from '@libs/db/models/user.model';
-import { BadGatewayException, BadRequestException } from '@nestjs/common';
+import { BadRequestException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ReturnModelType } from '@typegoose/typegoose';
 import { compareSync } from 'bcryptjs';
@@ -23,7 +23,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     if (!user){
       throw new BadRequestException('用户名不正确！')
     }
-      
+    //比较提交密码与库密码
     if(!compareSync(password,user.password)){
       throw new BadRequestException('用户名或密码错误！')
     }

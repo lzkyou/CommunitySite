@@ -1,6 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { modelOptions, prop } from '@typegoose/typegoose'
+import { modelOptions, prop, DocumentType, Ref } from '@typegoose/typegoose'
 import { hashSync } from 'bcryptjs'
+import { Video } from './video.model'
+
+export type UserDocument = DocumentType<User>
 
 @modelOptions({
   schemaOptions:{
@@ -27,4 +30,5 @@ export class User{
     }
   })
   password: string
+
 }
